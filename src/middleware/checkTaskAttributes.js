@@ -8,7 +8,8 @@ export function checkId(req, res, next) {
 }
 
 export function checkAtt(req, res, next) {
-  const {status, priority } = req.body;
+  const {title, status, priority } = req.body;
+  if(!title|| !status || !priority) return res.status(400).json("Enter Status and title");
   if (!STATUSES.includes(status) || !PRIORITIES.includes(priority))
     return res.status(400).json("Please Enter a valid status and priority");
   next();
