@@ -8,9 +8,15 @@ export function checkId(req, res, next) {
 }
 
 export function checkAtt(req, res, next) {
-  const {title, status, priority } = req.body;
-  if(!title|| !status || !priority) return res.status(400).json("Enter Status and title");
-  if (!STATUSES.includes(status) || !PRIORITIES.includes(priority))
-    return res.status(400).json("Please Enter a valid status and priority");
+  const { title, status, priority } = req.body ?? {};
+  const badTitle = !title || typeof title !== "string" || title.trim() === "";
+  if (badTitle)
+    return res
+      .status(400)
+      .json({ message: "Title must be a non-empty string" });
+  if (!STATUSES.includes(status))
+    return res.status(400).json({ message: "Invalid status" });
+  if (!PRIORITIES.includes(priority))
+    return res.status(400).json({ message: "Invalid priority" });
   next();
 }

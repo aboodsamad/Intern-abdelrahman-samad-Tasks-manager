@@ -2,13 +2,13 @@ import express from "express";
 import router from "./routes/task.routes.js";
 
 const app = express();
-const Port = process.env.Port || 3000;
+const Port = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use("/tasks", router);
 
 app.use((req, res) => {
-  res.status(404).json("Route Not Found");
+  res.status(404).json({error : "Route Not Found"});
 });
 
 app.use((err, req, res, next) => {
